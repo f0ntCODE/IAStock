@@ -3,15 +3,6 @@ from Node import Node
 
 class buscaNP(object):
     #--------------------------------------------------------------------------
-    # SUCESSORES PARA GRAFO
-    #--------------------------------------------------------------------------
-    def sucessores_grafo(self,ind,grafo,ordem):
-        
-        f = []
-        for suc in grafo[ind][::ordem]:
-            f.append(suc)
-        return f
-    #--------------------------------------------------------------------------
     # SUCESSORES PARA GRID
     #--------------------------------------------------------------------------
     # SUCESSORES PARA GRID (LISTA DE ADJACENCIAS)
