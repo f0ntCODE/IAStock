@@ -1,58 +1,60 @@
-📦 Gestão de Estoque - Simulação de Caminhos
+📦 Gestão de Estoques - Previsão e Planejamento
 
-Simulação interativa de caminhos em um depósito 🏭 usando Python + Tkinter. Teste algoritmos de busca e visualize rotas entre pontos de coleta e entrega!
+Simulação interativa de Gestão de Estoques, permitindo prever necessidades e planejar reabastecimentos para reduzir rupturas 🏪. Visualize rotas no depósito, defina pontos de coleta e entrega, e teste diferentes estratégias de logística.
 
 🚀 Como Rodar
 
 Abra o terminal.
 
-Entre na pasta do projeto:
+Navegue até a pasta do projeto:
 
 cd caminho/para/o/projeto
 
 
-Execute:
+Execute o arquivo principal:
 
 python InterfaceEstoque.py
 
 
-⚠️ Certifique-se de que Node.py e BuscaNP.py estão no mesmo diretório.
+⚠️ Certifique-se de que os arquivos Node.py e BuscaNP.py estão na mesma pasta.
 
 🎮 Como Usar
 
-Escolher Modo
+Selecionar Modo de Edição
 
-🟢 Definir Coleta (ponto inicial)
+🟢 Coleta: definir ponto inicial de retirada do estoque
 
-🔴 Definir Entrega (destino)
+🔴 Entrega: definir destino do produto
 
-⬛ Adicionar/Remover Prateleira
+⬛ Prateleira/Ocupado: adicionar ou remover obstáculos no depósito
 
-Selecionar Algoritmo
+Escolher Algoritmo de Busca
 
 Amplitude, Profundidade, Profundidade Limitada, Aprofundamento Iterativo ou Bidirecional
 
-Executar Busca
+Executar Planejamento
 
 Clique em ▶ Executar Busca
 
-Caminho é exibido no painel + grid
+Caminho otimizado é exibido no painel e destacado no grid
 
 Resetar Depósito
 
-🔄 Limpa o grid e restaura obstáculos iniciais
+🔄 Limpa o grid e restaura os obstáculos iniciais
 
-🖌 Legenda do Grid
+🖌 Legenda do Depósito
 Cor	Significado
 ⚪ Branco	Célula Livre
-⬛ Cinza	Prateleira
-🟢 Verde	Coleta
-🔴 Vermelho	Entrega
-🔵 Azul	Caminho
-💡 Dicas
+⬛ Cinza	Prateleira/Ocupada
+🟢 Verde	Ponto de Coleta
+🔴 Vermelho	Ponto de Entrega
+🔵 Azul	Caminho Planejado
+💡 Funcionalidades
 
-Grid padrão: 11x11 (alterável em GRID_SIZE)
+Simulação de rotas no depósito para otimizar retirada e entrega
 
-Ajuste o Limite de Profundidade para algoritmos que precisam
+Planejamento de reabastecimento baseado em obstáculos e limites de profundidade
 
-Obstáculos iniciais representam prateleiras e podem ser editados
+Visualização interativa para facilitar tomada de decisão
+
+Ajuste do grid e obstáculos para refletir cenários reais do estoque
