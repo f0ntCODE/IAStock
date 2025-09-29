@@ -42,9 +42,42 @@ class InterfaceEstoque:
         main_frame = tk.Frame(self.root, bg="#f0f0f0")
         main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        # ---- PAINEL ESQUERDO: CONTROLES ----
-        left_frame = tk.Frame(main_frame, bg="white", relief=tk.RAISED, borderwidth=2)
-        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, padx=(0, 10))
+        # ---- PAINEL ESQUERDO COM SCROLLBAR ----
+        left_container = tk.Frame(main_frame, bg="white", relief=tk.RAISED, borderwidth=2)
+        left_container.pack(side=tk.LEFT, fill=tk.BOTH, padx=(0, 10))
+        
+        # Canvas para permitir scroll
+        left_canvas = tk.Canvas(left_container, bg="white", highlightthickness=0, width=300)
+        scrollbar = tk.Scrollbar(left_container, orient="vertical", command=left_canvas.yview)
+        
+        # Frame interno que conterá todo o conteúdo
+        left_frame = tk.Frame(left_canvas, bg="white")
+        
+        # Configurar scrollbar
+        left_canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # Posicionar canvas e scrollbar
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        left_canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        # Criar janela no canvas para o frame interno
+        canvas_frame = left_canvas.create_window((0, 0), window=left_frame, anchor="nw")
+        
+        # Função para atualizar a região de scroll
+        def configure_scroll(event):
+            left_canvas.configure(scrollregion=left_canvas.bbox("all"))
+            # Ajustar largura do frame interno à largura do canvas
+            canvas_width = event.width
+            left_canvas.itemconfig(canvas_frame, width=canvas_width)
+        
+        left_frame.bind("<Configure>", configure_scroll)
+        left_canvas.bind("<Configure>", lambda e: left_canvas.itemconfig(canvas_frame, width=e.width))
+        
+        # Bind do scroll do mouse
+        def _on_mousewheel(event):
+            left_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        left_canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
         tk.Label(left_frame, text="Controles de Estoque", font=("Arial", 16, "bold"), 
                  bg="white", fg="#2c3e50").pack(pady=10)
@@ -71,7 +104,7 @@ class InterfaceEstoque:
                                      font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
         limite_frame.pack(fill=tk.X, padx=10, pady=5)
         tk.Label(limite_frame, text="Limite de Profundidade:", bg="white", font=("Arial", 10)).pack(anchor=tk.W)
-        self.limite_var = tk.IntVar(value=20)
+        self.limite_var = tk.IntVar(value=20) 
         tk.Scale(limite_frame, from_=1, to=50, orient=tk.HORIZONTAL,
                  variable=self.limite_var, bg="white").pack(fill=tk.X, pady=5)
 
@@ -101,23 +134,10 @@ class InterfaceEstoque:
                                        bg="#6c757d", fg="white", font=("Arial", 10, "bold"))
         self.btn_obstaculo.pack(fill=tk.X, pady=3)
 
-        # Botões de ação
-        acoes_frame = tk.Frame(left_frame, bg="white", padx=10, pady=10)
-        acoes_frame.pack(fill=tk.X, padx=10, pady=5)
-        self.btn_executar = tk.Button(acoes_frame, text="▶ Executar Busca", command=self.executar_busca,
-                                      bg="#007bff", fg="white", font=("Arial", 12, "bold"), height=2)
-        self.btn_executar.pack(fill=tk.X, pady=5)
-        tk.Button(acoes_frame, text="🔄 Resetar Depósito", command=self.resetar_grid,
-                  bg="#6c757d", fg="white", font=("Arial", 11, "bold")).pack(fill=tk.X, pady=5)
-        tk.Button(acoes_frame, text="🛠 Criar/Importar Grid", command=self.iniciar_grid,
-                  bg="#ffc107", fg="white", font=("Arial", 11, "bold")).pack(fill=tk.X, pady=5)
-        tk.Button(acoes_frame, text="📂 Importar Mapa", command=self.importar_mapa,
-                  bg="#17a2b8", fg="white", font=("Arial", 11, "bold")).pack(fill=tk.X, pady=5)
-
         # Resultados
         resultado_frame = tk.LabelFrame(left_frame, text="Resultado da Busca", 
                                         font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
-        resultado_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+        resultado_frame.pack(fill=tk.X, padx=10, pady=5)
         self.custo_label = tk.Label(resultado_frame, text="Custo: 0", font=("Arial", 14, "bold"), bg="white")
         self.custo_label.pack(pady=5)
         self.tamanho_label = tk.Label(resultado_frame, text="Tamanho do Caminho: 0", font=("Arial", 12), bg="white")
@@ -133,13 +153,33 @@ class InterfaceEstoque:
         # ---- PAINEL DIREITO: GRID ----
         right_frame = tk.Frame(main_frame, bg="white", relief=tk.RAISED, borderwidth=2)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
+        
         tk.Label(right_frame, text="Visualização do Depósito", font=("Arial", 16, "bold"),
                  bg="white", fg="#2c3e50").pack(pady=10)
+        
         self.canvas = tk.Canvas(right_frame, width=self.GRID_SIZE*self.CELL_SIZE, 
                                 height=self.GRID_SIZE*self.CELL_SIZE, bg="white",
                                 highlightthickness=2, highlightbackground="#2c3e50")
-        self.canvas.pack(padx=20, pady=20)
+        self.canvas.pack(padx=20, pady=10)
         self.canvas.bind("<Button-1>", self.on_click_grid)
+        
+        # Botões de ação movidos para o painel direito
+        acoes_frame = tk.Frame(right_frame, bg="white", padx=20, pady=10)
+        acoes_frame.pack(fill=tk.X)
+        
+        self.btn_executar = tk.Button(acoes_frame, text="▶ Executar Busca", command=self.executar_busca,
+                                      bg="#007bff", fg="white", font=("Arial", 12, "bold"), height=2)
+        self.btn_executar.pack(fill=tk.X, pady=3)
+        
+        tk.Button(acoes_frame, text="🔄 Resetar Depósito", command=self.resetar_grid,
+                  bg="#6c757d", fg="white", font=("Arial", 11, "bold")).pack(fill=tk.X, pady=3)
+        
+        tk.Button(acoes_frame, text="🛠 Criar/Importar Grid", command=self.iniciar_grid,
+                  bg="#ffc107", fg="white", font=("Arial", 11, "bold")).pack(fill=tk.X, pady=3)
+        
+        tk.Button(acoes_frame, text="📂 Importar Mapa", command=self.importar_mapa,
+                  bg="#17a2b8", fg="white", font=("Arial", 11, "bold")).pack(fill=tk.X, pady=3)
+        
         self.caminho_label_grid = tk.Label(right_frame, text="Caminho: (nenhum)", font=("Arial", 11), 
                                            bg="white", fg="#2c3e50", wraplength=500, justify="left")
         self.caminho_label_grid.pack(pady=10)
@@ -251,11 +291,11 @@ class InterfaceEstoque:
             elif algoritmo == "profundidade":
                 resultado = self.busca.profundidade(self.inicio, self.fim, self.GRID_SIZE, self.GRID_SIZE, self.grid)
             elif algoritmo == "profundidadeLimitada":
-                resultado = self.busca.prof_limitada(self.inicio, self.fim, None, None, self.limite_var.get())
+                resultado = self.busca.prof_limitada(self.inicio, self.fim, self.GRID_SIZE, self.GRID_SIZE, self.grid, self.limite_var.get())
             elif algoritmo == "aprofundamentoIterativo":
                 resultado = self.busca.aprof_iterativo(self.inicio, self.fim, self.GRID_SIZE, self.GRID_SIZE, self.grid, self.limite_var.get())
             elif algoritmo == "bidirecional":
-                resultado = self.busca.bidirecional(self.inicio, self.fim, None, None)
+                resultado = self.busca.bidirecional(self.inicio, self.fim, self.GRID_SIZE, self.GRID_SIZE, self.grid)
 
             # Atualiza resultados
             if resultado:
