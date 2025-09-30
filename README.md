@@ -38,10 +38,6 @@ Clique em ▶ Executar Busca
 
 Caminho otimizado é exibido no painel e destacado no grid
 
-Resetar Depósito
-
-🔄 Limpa o grid e restaura os obstáculos iniciais
-
 🖌 Legenda do Depósito
 Cor	Significado
 ⚪ Branco	Célula Livre
