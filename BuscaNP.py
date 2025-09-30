@@ -249,7 +249,7 @@ class buscaNP(object):
         raiz = Node(None,t_inicio,0,None,None)  # grid
         fila1.append(raiz)
         raiz2 = Node(None,t_fim,0,None,None)  # grid
-        fila2.append(raiz)
+        fila2.append(raiz2)
     
         # Visitados mapeando estado -> Node (para reconstruir o caminho)
         visitado1 = {tuple(inicio): raiz}    # grid

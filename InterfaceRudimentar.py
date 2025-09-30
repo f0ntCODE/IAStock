@@ -327,11 +327,12 @@ class InterfaceEstoque:
                                              filetypes=[("Arquivos de Texto", "*.txt")])
         if arquivo:
             try:
-                with open(arquivo, "r") as f:
-                    linhas = f.readlines()
+                arq = open(arquivo, "r")
+                linhas = arq.readlines()
+                    
                 
                 if len(linhas) != self.GRID_SIZE:
-                    messagebox.showerror("Erro", f"O mapa deve ter exatamente {self.GRID_SIZE} linhas.")
+                    messagebox.showerror("Erro", f"O mapa deve ter exatamente {self.GRID_SIZE} linhas." + linhas)
                     return
 
                 novo_grid = []
