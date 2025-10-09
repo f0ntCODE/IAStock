@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, filedialog
 from Node import Node
 from BuscaNP import buscaNP
+from ponderado import BuscaP
 
 class InterfaceEstoque:
    
