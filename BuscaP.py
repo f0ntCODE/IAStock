@@ -93,45 +93,44 @@ class busca(object):
             c2 = 7 #variável c2 recebe 7
         else:
             c2 = 5 #variável c2 recebe 5
-        h = sqrt(c1*(p1[0]-p2[0])*(p1[0]-p2[0]) + c2*(p1[1]-p2[1])*(p1[1]-p2[1])) '''var h recebe: 
-        a raiz quadrada da multiplicação das diferenças entre p1[0] e p2[0], multiplicado por c1 mais a multiplicação 
-        entre as diferenças entre p1[1] e p2[1]
-        '''
+        h = sqrt(c1*(p1[0]-p2[0])*(p1[0]-p2[0]) + c2*(p1[1]-p2[1])*(p1[1]-p2[1])) #var h recebe: a raiz quadrada da multiplicação das diferenças entre p1[0] e p2[0], multiplicado por c1 mais a multiplicação 
+        #entre as diferenças entre p1[1] e p2[1]
+        
         #h = c1*fabs(p1[0]-p2[0]) + c2*fabs(p1[1]-p2[1])
         '''
-        
+        heurística recebe a multiplicação de c1 com o valor abosluto em float da direferença entre p1[0] e p2[0], somado com a mesma expressão da anterior, porém, com c2 e 'p's na posição [1]
         '''
-        return h
+        return h #retorne a heurística
 # -----------------------------------------------------------------------------
 # CUSTO UNIFORME
 # -----------------------------------------------------------------------------
-    def custo_uniforme(self,inicio,fim,mapa,nx,ny): # grid
+    def custo_uniforme(self,inicio,fim,mapa,nx,ny): # grid | custo uniforme exige coordenada início, fim, mapa, limite x e limite y do grid
         # Origem igual a destino
-        if inicio == fim:
-            return [inicio]
+        if inicio == fim: #se a coordenada do inicio for igual à coordenada fim, chegou ao lugar
+            return [inicio] #retorne o início
         
         # Fila de prioridade baseada em deque + inserção ordenada
-        lista = deque()
-        t_inicio = tuple(inicio)   # grid
-        raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid
-        lista.append(raiz)
+        lista = deque() #tranformar variável lista em uma lista que opera em baixo nível (mais eficiente)
+        t_inicio = tuple(inicio)   # grid | t_inicio recebe a variável início em forma de tupla
+        raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid | raiz recebe o retorno do método NodeP
+        lista.append(raiz) #do resultado da raiz, atribua-a na variável lista
     
         # Controle de nós visitados
-        visitado = {tuple(inicio): raiz}    # grid
+        visitado = {tuple(inicio): raiz}    # grid | ?
         
         # loop de busca
-        while lista:
+        while lista: #enquanto não chegar ao fim da lista
             # remove o primeiro nó
-            atual = lista.popleft()
-            valor_atual = atual.v2
+            atual = lista.popleft() #na lista "atual", remova o primeiro nó da variável lista
+            valor_atual = atual.v2 #da variável valor_atual, receba o valor 2 da lista "atual"
     
             # Chegou ao objetivo
-            if atual.estado == fim:
-                caminho = self.exibirCaminho(atual)
-                return caminho, atual.v2
+            if atual.estado == fim: #se o estado (x, y) da lista "atual" for igual ao fim (x,y)
+                caminho = self.exibirCaminho(atual) #a lista caminho recebe do método exibirCaminho o retorno do processamento da lista "atual"
+                return caminho, atual.v2 #retorne a lista caminho e o segundo valor da variável "atual"
             
             # Gera sucessores - grid
-            filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid
+            filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid | lista filhos recebe o retorno do método sucessores_grid
     
             for novo in filhos: # grid
                 # custo acumulado até o sucessor
