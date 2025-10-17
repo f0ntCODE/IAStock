@@ -132,166 +132,162 @@ class busca(object):
             # Gera sucessores - grid
             filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid | lista filhos recebe o retorno do método sucessores_grid
     
-            for novo in filhos: # grid
+            for novo in filhos: # grid | laço for para iterar sobre o nó filhos
                 # custo acumulado até o sucessor
-                v2 = valor_atual + novo[1]
-                v1 = v2 
+                v2 = valor_atual + novo[1] #variável v2 recebe "valor atual" acrescido do valor no vetor "novo" na posição 2 deste
+                v1 = v2 #v1 recebe o mesmo que o v2
     
                 # Não visitado ou custo melhor
-                t_novo = tuple(novo[0])       # grid
-                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid
-                #if (novo[0] not in visitado) or (v2 < visitado[novo[0]].v2):
-                    filho = NodeP(atual,t_novo, v1, None, None, v2) # grid
-                    visitado[t_novo] = filho # grid
-                    self.inserir_ordenado(lista, filho)
-        return None
+                t_novo = tuple(novo[0])       # grid | variável t_novo recebe o valor do vetor "novo" em formato de tupla, ou seja, imutáveis e ordenados
+                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid | se o valor do t_novo não estiver em variável visitado ou se o valor v2 for menor que o valor do vetor "visitado", na posição t_novo do valor v2...
+                    filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o valor da classe NodeP, preenchida com os parâmetros: atual, t_novo, v1, nada, nada e v2
+                    visitado[t_novo] = filho # grid | o valor que estará na posição t_novo do vetor "visitado" recebe o valor de filho
+                    self.inserir_ordenado(lista, filho) #chamada de método "inserir_ordenado", com parâmetros: lista e filho
+        return None #retorne nada
 # -----------------------------------------------------------------------------
 # GREEDY
 # -----------------------------------------------------------------------------
-    def greedy(self,inicio,fim,mapa,nx,ny): # grid
+    def greedy(self,inicio,fim,mapa,nx,ny): # grid | método greedy recebe parâmetros: início, fim, o mapa, o eixo x e o eixo y
         # Origem igual a destino
-        if inicio == fim:
-            return [inicio]
+        if inicio == fim: #se o valor do início for igual ao valor fim...
+            return [inicio] #retorne valor início em formato de vetor
         
         # Fila de prioridade baseada em deque + inserção ordenada
-        lista = deque()
-        t_inicio = tuple(inicio)   # grid
-        raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid
-        lista.append(raiz)
+        lista = deque() #transforme o vetor lista em deque, para melhoria na manipulação de fila/pilha
+        t_inicio = tuple(inicio)   # grid | vetor t_inicio recebe a variável início em formato de tupla, isto é, imutável e ordenado
+        raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid | variável "raiz" recebe o retorno do modelo NodeP, que recebe o t_inicio, 0, nada, nada e 0 também
+        lista.append(raiz) #atribua à lista o valor da variável "raiz"
     
         # Controle de nós visitados
-        visitado = {tuple(inicio): raiz}    # grid
+        visitado = {tuple(inicio): raiz}    # grid | variável visitada recebe uma lista de "inicio" em formato de tupla, até chegar à raiz
         
         # loop de busca
-        while lista:
+        while lista: #enquanto for possível iterar na lista...
             # remove o primeiro nó
-            atual = lista.popleft()
-            valor_atual = atual.v2
+            atual = lista.popleft() #variável "atual" recebe a variável "lista" com um valor retirado
+            valor_atual = atual.v2 #variável "valor_atual" recebe o valor de atual.v2
     
             # Chegou ao objetivo
-            if atual.estado == fim:
-                caminho = self.exibirCaminho(atual)
-                return caminho, atual.v2
+            if atual.estado == fim: #se o estado do valor atual for igual ao fim...
+                caminho = self.exibirCaminho(atual) #variável caminho recebe o retorno da rotina "exibirCaminho", recebendo como parâmetro o valor "atual"
+                return caminho, atual.v2 #retorne o caminho e o v2 de atual
             
             # Gera sucessores - grid
-            filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid
+            filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid | variável "filhos" recebe o retorna do método "sucessores_grid", que recebe os parâmetros: estado do atual, eixo x, eixo y e o mapa
     
-            for novo in filhos: # grid
+            for novo in filhos: # grid | laço for-each dos valores do vetor "filhos"
                 # custo acumulado até o sucessor
-                v2 = valor_atual + novo[1]
-                #v1 = self.heuristica_grafo(nos,novo[0],fim) 
-                v1 = self.heuristica_grid(novo[0],fim)  
+                v2 = valor_atual + novo[1] # valor v2 recebe a soma de valor atual com o segundo valor do vetor "novo"
+                v1 = self.heuristica_grid(novo[0],fim) #variável v1 recebe o retorno do método "heurística_grid", recebendo parâmetros: primeiro valor do vetor "novo" e o valor fim  
     
                 # Não visitado ou custo melhor
-                t_novo = tuple(novo[0])       # grid
-                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid
-                #if (novo[0] not in visitado) or (v2 < visitado[novo[0]].v2):
-                    filho = NodeP(atual,t_novo, v1, None, None, v2) # grid
-                    #visitado[novo[0]] = filho #grafo
-                    visitado[t_novo] = filho # grid
-                    self.inserir_ordenado(lista, filho)
-        return None
+                t_novo = tuple(novo[0])       # grid | variável t_novo recebe o primeiro valor do vetor "novo", em formato de tupla, isto é, imutável e ordenado
+                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid | se o valor de t_novo não existir no vetor "visitado" ou se valor de v2 for menor que a posição "t_novo" do vetor "visitado" x v2...
+                    filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o retorno da função NodeP, que recebe os parâmetros: atual, t_novo, v1, nada, nada, v2
+                    visitado[t_novo] = filho # grid | posição t_novo no vetor "visitado" recebe o valor "filho"
+                    self.inserir_ordenado(lista, filho) #execute a rotina "inserir_ordenado, com seguintes parâmetros: lista e filho"
+        return None #retorno vazio
 # -----------------------------------------------------------------------------
 # A ESTRELA
 # -----------------------------------------------------------------------------
-    def a_estrela(self,inicio,fim,mapa,nx,ny): # grid
+    def a_estrela(self,inicio,fim,mapa,nx,ny): # grid | método "a_estrela" recebe como parâmetros: início, fim, mapa, eixo x e eixo y
         # Origem igual a destino
-        if inicio == fim:
-            return [inicio]
+        if inicio == fim: #se o valor início for igual ao valor fim...
+            return [inicio] # retorne valor "início" em formato de vetor
         
         # Fila de prioridade baseada em deque + inserção ordenada
-        lista = deque()
-        t_inicio = tuple(inicio)   # grid
-        raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid
-        lista.append(raiz)
+        lista = deque() #variável "lista" se transforma em deque, para melhor eficiência quanto à manipulação de lista/fila
+        t_inicio = tuple(inicio)   # grid | variável t_inicio recebe o valor de início em fomato de tupla, isto é, imutável e ordenado
+        raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid | variável raiz recebe o valor do modelo NodeP, que recebe os parâmetros: nada, t_inicio, 0, nada, nada, 0
+        lista.append(raiz) #atribua ao vetor "lista" o valor "raiz" 
     
         # Controle de nós visitados
-        visitado = {tuple(inicio): raiz}    # grid
+        visitado = {tuple(inicio): raiz}    # grid | variável visitado recebe o valor início em formato de tupla, iterando do vetor "raiz"
         
         # loop de busca
-        while lista:
+        while lista: #enquanto for possível iterar no vetor "lista"
             # remove o primeiro nó
-            atual = lista.popleft()
-            valor_atual = atual.v2
+            atual = lista.popleft() #valor atual recebe a "lista" com um valor retirado
+            valor_atual = atual.v2 #variável "valor_atual" recebe o valor atual.v2
     
             # Chegou ao objetivo
-            if atual.estado == fim:
-                caminho = self.exibirCaminho(atual)
-                return caminho, atual.v2
+            if atual.estado == fim: #se o estado de valor atual recebe o valor fim...
+                caminho = self.exibirCaminho(atual) #variável caminho recebe o retorno da rotina "exibirCaminho", atribuindo o valor "atual"
+                return caminho, atual.v2 #retorne o valor caminho e o v2 do atual
             
             # Gera sucessores - grid
-            filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid
+            filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid | vetor filhos recebe a rotina "sucessores_grid", que recebe os valores: estado do atual, valor x, valor y e o mapa
     
-            for novo in filhos: # grid
+            for novo in filhos: # grid | laço for-each do vetor filhos
                 # custo acumulado até o sucessor
-                v2 = valor_atual + novo[1]
-                v1 = v2 + self.heuristica_grid(novo[0],fim)  
+                v2 = valor_atual + novo[1] #v2 recebe o valor de "valor_atual"somado com o segundo valor do vetor "novo"
+                v1 = v2 + self.heuristica_grid(novo[0],fim) # variável v1 recebe a soma de v2 com o retorno da rotina "heurística_grid", que recebe o primeiro valor da lista "novo" e o valor fim  
     
                 # Não visitado ou custo melhor
-                t_novo = tuple(novo[0])       # grid
-                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid
-                    filho = NodeP(atual,t_novo, v1, None, None, v2) # grid
-                    visitado[t_novo] = filho # grid
-                    self.inserir_ordenado(lista, filho)
-        return None
+                t_novo = tuple(novo[0])       # grid | variável t_novo recebe o primeiro valor do vetor novo, em formato de tupla, isto é, ordenado e imutável
+                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid | se o valor de t_novo não existir em vetor visistado ou se v2 for menor que a posição "t_novo" do vetor "visitado".v2... 
+                    filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o retorno do modelo NodeP, que recebe os parâmetros: atual, t_novo, v1, nada, nada, v2.
+                    visitado[t_novo] = filho # grid | posição "t_novo" do vetor "visitado" recebe o valor filho
+                    self.inserir_ordenado(lista, filho) # executar a função "inserir_ordenado", que recebe os parâmetros: lista e filho
+        return None #retorno vazio
 # -----------------------------------------------------------------------------
 # AI ESTRELA
 # -----------------------------------------------------------------------------       
-    def aia_estrela(self,inicio,fim,mapa,nx,ny): # grid
+    def aia_estrela(self,inicio,fim,mapa,nx,ny): # grid | função aia_estrela recebe os parâmetros: início, fim, mapa, eixo x e eixo y
         # Origem igual a destino
-        if inicio == fim:
-            return [inicio]
+        if inicio == fim: #se o valor início for igual ao valor fim...
+            return [inicio]  #retorne o valor início em formato de vetor
         
-        limite = self.heuristica_grid(inicio,fim)
+        limite = self.heuristica_grid(inicio,fim) #valor limite recebe o retorno da rotina "heurística_grid", que recebe os parâmetros: início e fim
         
         # Fila de prioridade baseada em deque + inserção ordenada
-        lista = deque()
-        
+        lista = deque() # vetor "lista" recebe função deque(), para melhor eficiência quanto à manipulação de fila/pilha
         
         # Busca iterativa
-        while True:
-            lim_acima = []
+        while True: #loop infinito
+            lim_acima = [] #lim_acima é um vetor
             
-            t_inicio = tuple(inicio)   # grid
-            raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid
-            lista.append(raiz)
+            t_inicio = tuple(inicio)   # grid | variável t_início recebe o valor "início" em formato de tupla, isto é, ordenada e imutável
+            raiz = NodeP(None, t_inicio,0, None, None, 0)  # grid | variável "raiz" recebe o modelo NodeP, com os parâmetros: nada, t_inicio, 0, nada, nada e 0
+            lista.append(raiz) #atribua à "lista" o valor raiz
         
             # Controle de nós visitados
-            visitado = {tuple(inicio): raiz}    # grid
+            visitado = {tuple(inicio): raiz}    # grid | variável "visitado" recebe o valor início em formato de tupla, iterando ao valor raiz
             
             # loop de busca
-            while lista:
+            while lista: # enquanto for possível iterar o vetor lista...
                 # remove o primeiro nó
-                atual = lista.popleft()
-                valor_atual = atual.v2
+                atual = lista.popleft() #vetor "atual" recebe o valor lista se um método
+                valor_atual = atual.v2 # valor_atual recebe o atual.v2
         
                 # Chegou ao objetivo
-                if atual.estado == fim:
-                    caminho = self.exibirCaminho(atual)
-                    return caminho, atual.v2
+                if atual.estado == fim: #se o estado do valor atual for igual ao valor fim
+                    caminho = self.exibirCaminho(atual) #valor caminho recebe o retorno da função "exibirCaminho", que recebe o parâmetro "atual"
+                    return caminho, atual.v2 #retorne o valor caminho e o valor atual.v2
                 
                 # Gera sucessores - grid
-                filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid
+                filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid | vetor filhos recebe o retorno da rotina "sucessoresGrid", que recebe os valores: estado do atual, eixo x, eixo y e o mapa
         
-                for novo in filhos: # grid
+                for novo in filhos: # grid | laço for-each do vetor filhos
                     # custo acumulado até o sucessor
-                    v2 = valor_atual + novo[1]
-                    v1 = v2 + self.heuristica_grid(novo[0],fim)  
+                    v2 = valor_atual + novo[1] # v2 recebe a soma do valor_atual com o segundo valor do vetor "novo"
+                    v1 = v2 + self.heuristica_grid(novo[0],fim)  #v1 recebe a soma do v2 com o retorno da "heurística_grid", que recebe o primeiro valor do vetor "novo" e o valor fim
                 
                     # Verifica se está dentro do limite
-                    if v1<=limite:
+                    if v1<=limite: # se o v1 for menor ou igual a valor limite...
                         # Não visitado ou custo melhor
-                        t_novo = tuple(novo[0])       # grid
-                        if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid
-                            filho = NodeP(atual,t_novo, v1, None, None, v2) # grid
-                            visitado[t_novo] = filho # grid
-                            self.inserir_ordenado(lista, filho)
-                    else:
-                        lim_acima.append(v1)
+                        t_novo = tuple(novo[0])       # grid | t_novo recebe o primeiro valor do vetor "novo" em formato de tupla, isto é, imutável e ordenado
+                        if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid | se o valor t_novo não exisitir em "visitado" ou se v2 for menor que a posição "t_novo" do vetor "visitado".v2...
+                            filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o retorno do modelo "NodeP", que contém estes oarâmetros: atual, t_novo, v1, nada, nada e v2
+                            visitado[t_novo] = filho # grid | a posição "t_novo" do vetor "visitado" recebe o valor filho
+                            self.inserir_ordenado(lista, filho) #execute a rotina inserir_ordenado, com os parâmetros: lista e filhos
+                    else: #senão...
+                        lim_acima.append(v1) #atribua o v1 ao vetor "lim_acima"
             
-            limite = sum(lim_acima)/len(lim_acima)
-            lista.clear()
-            visitado.clear()
-            filhos.clear()
-                        
-        return None
+            limite = sum(lim_acima)/len(lim_acima) #variável limite recebe o somatório de lim_acima dividido pelo tamanho do lim_acima
+            lista.clear() #limpar a lista
+            visitado.clear() #limpar vetor "visitado"
+            filhos.clear() #limpar "filhos"               
+                     
+        return None #retorno vazio
+
