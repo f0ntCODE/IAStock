@@ -14,7 +14,7 @@ class busca(object):
         # DIREITA
         if y+1<ny:  #se ao andar 1 posição no st[1] for menor que o limite y
             if mapa[x][y+1]==0: #se ao andar no eixo y + 1 for 0 (caminho)
-                suc = [] = #cria vetor suc
+                suc = [] #cria vetor suc
                 suc.append(x) #atribui st[0] a suc
                 suc.append(y+1) #atribui st[1] a suc
                 custo = 5 #o custo é 5
