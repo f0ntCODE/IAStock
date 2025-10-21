@@ -149,8 +149,10 @@ class busca(object):
     def greedy(self,inicio,fim,mapa,nx,ny): # grid | método greedy recebe parâmetros: início, fim, o mapa, o eixo x e o eixo y
         # Origem igual a destino
         if inicio == fim: #se o valor do início for igual ao valor fim...
+            print("INÍCIO É IGUAL A FIM")
             return [inicio] #retorne valor início em formato de vetor
         
+        print("INICIANDO ALGORITMO GREED")
         # Fila de prioridade baseada em deque + inserção ordenada
         lista = deque() #transforme o vetor lista em deque, para melhoria na manipulação de fila/pilha
         t_inicio = tuple(inicio)   # grid | vetor t_inicio recebe a variável início em formato de tupla, isto é, imutável e ordenado
@@ -181,11 +183,11 @@ class busca(object):
     
                 # Não visitado ou custo melhor
                 t_novo = tuple(novo[0])       # grid | variável t_novo recebe o primeiro valor do vetor "novo", em formato de tupla, isto é, imutável e ordenado
-                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid | se o valor de t_novo não existir no vetor "visitado" ou se valor de v2 for menor que a posição "t_novo" do vetor "visitado" x v2...
+                if (t_novo not in visitado) or (v1<visitado[t_novo].v1): # grid | se o valor de t_novo não existir no vetor "visitado" ou se valor de v2 for menor que a posição "t_novo" do vetor "visitado" x v2...
                     filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o retorno da função NodeP, que recebe os parâmetros: atual, t_novo, v1, nada, nada, v2
                     visitado[t_novo] = filho # grid | posição t_novo no vetor "visitado" recebe o valor "filho"
                     self.inserir_ordenado(lista, filho) #execute a rotina "inserir_ordenado, com seguintes parâmetros: lista e filho"
-        return None #retorno vazio
+        return None, None #retorno vazio
 # -----------------------------------------------------------------------------
 # A ESTRELA
 # -----------------------------------------------------------------------------
@@ -228,7 +230,7 @@ class busca(object):
                     filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o retorno do modelo NodeP, que recebe os parâmetros: atual, t_novo, v1, nada, nada, v2.
                     visitado[t_novo] = filho # grid | posição "t_novo" do vetor "visitado" recebe o valor filho
                     self.inserir_ordenado(lista, filho) # executar a função "inserir_ordenado", que recebe os parâmetros: lista e filho
-        return None #retorno vazio
+        return None, None #retorno vazio
 # -----------------------------------------------------------------------------
 # AI ESTRELA
 # -----------------------------------------------------------------------------       
@@ -282,11 +284,15 @@ class busca(object):
                             self.inserir_ordenado(lista, filho) #execute a rotina inserir_ordenado, com os parâmetros: lista e filhos
                     else: #senão...
                         lim_acima.append(v1) #atribua o v1 ao vetor "lim_acima"
+            try:
+                limite = sum(lim_acima)/len(lim_acima) #variável limite recebe o somatório de lim_acima dividido pelo tamanho do lim_acima
+            except:
+                raise ZeroDivisionError("Divisão por 0 ocorreu")
             
-            limite = sum(lim_acima)/len(lim_acima) #variável limite recebe o somatório de lim_acima dividido pelo tamanho do lim_acima
-            lista.clear() #limpar a lista
-            visitado.clear() #limpar vetor "visitado"
-            filhos.clear() #limpar "filhos"               
+            finally:
+                
+                lista.clear() #limpar a lista
+                visitado.clear() #limpar vetor "visitado"
+                filhos.clear() #limpar "filhos"               
                      
-        return None #retorno vazio
-
+        return None, None #retorno vazio

@@ -108,15 +108,14 @@ class InterfaceEstoque:
                                       font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
         estados_frame.pack(fill=tk.X, padx=10, pady=5)
         self.inicio_label = tk.Label(estados_frame, text=f"Coleta: ({self.inicio[0]}, {self.inicio[1]})",
-                                     bg="#d4edda", font=("Arial", 10, "bold"), relief=tk.RAISED, padx=10, pady=5)
+        bg="#d4edda", font=("Arial", 10, "bold"), relief=tk.RAISED, padx=10, pady=5)
         self.inicio_label.pack(fill=tk.X, pady=3)
         self.fim_label = tk.Label(estados_frame, text=f"Entrega: ({self.fim[0]}, {self.fim[1]})",
-                                  bg="#f8d7da", font=("Arial", 10, "bold"), relief=tk.RAISED, padx=10, pady=5)
+        bg="#f8d7da", font=("Arial", 10, "bold"), relief=tk.RAISED, padx=10, pady=5)
         self.fim_label.pack(fill=tk.X, pady=3)
 
         # ===== MODO DE EDIÇÃO =====
-        modo_frame = tk.LabelFrame(left_frame, text="Modo de Edição", 
-                                   font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
+        modo_frame = tk.LabelFrame(left_frame, text="Modo de Edição", font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
         modo_frame.pack(fill=tk.X, padx=10, pady=5)
         self.btn_inicio = tk.Button(modo_frame, text="Definir Coleta", command=lambda: self.set_modo("inicio"),
                                     bg="#28a745", fg="white", font=("Arial", 10, "bold"))
@@ -125,13 +124,12 @@ class InterfaceEstoque:
                                  bg="#dc3545", fg="white", font=("Arial", 10, "bold"))
         self.btn_fim.pack(fill=tk.X, pady=3)
         self.btn_obstaculo = tk.Button(modo_frame, text="Adicionar/Remover Prateleira", 
-                                       command=lambda: self.set_modo("obstaculo"),
-                                       bg="#6c757d", fg="white", font=("Arial", 10, "bold"))
+         command=lambda: self.set_modo("obstaculo"),
+         bg="#6c757d", fg="white", font=("Arial", 10, "bold"))
         self.btn_obstaculo.pack(fill=tk.X, pady=3)
 
         # ===== RESULTADO DA BUSCA =====
-        resultado_frame = tk.LabelFrame(left_frame, text="Resultado da Busca", 
-                                        font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
+        resultado_frame = tk.LabelFrame(left_frame, text="Resultado da Busca", font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
         resultado_frame.pack(fill=tk.X, padx=10, pady=5)
         self.custo_label = tk.Label(resultado_frame, text="Custo: 0", font=("Arial", 14, "bold"), bg="white")
         self.custo_label.pack(pady=5)
@@ -140,8 +138,7 @@ class InterfaceEstoque:
         tk.Label(resultado_frame, text="Caminho:", font=("Arial", 10, "bold"), bg="white").pack(pady=(10, 5))
         caminho_scroll = tk.Scrollbar(resultado_frame)
         caminho_scroll.pack(side=tk.RIGHT, fill=tk.Y)
-        self.caminho_text = tk.Text(resultado_frame, height=8, width=30, yscrollcommand=caminho_scroll.set,
-                                    font=("Arial", 9), bg="#f8f9fa")
+        self.caminho_text = tk.Text(resultado_frame, height=8, width=30, yscrollcommand=caminho_scroll.set, font=("Arial", 9), bg="#f8f9fa")
         self.caminho_text.pack(fill=tk.BOTH, expand=True)
         caminho_scroll.config(command=self.caminho_text.yview)
 
@@ -149,8 +146,7 @@ class InterfaceEstoque:
         right_frame = tk.Frame(main_frame, bg="white", relief=tk.RAISED, borderwidth=2)
         right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
         
-        tk.Label(right_frame, text="Visualização do Depósito", font=("Arial", 16, "bold"),
-                 bg="white", fg="#2c3e50").pack(pady=10)
+        tk.Label(right_frame, text="Visualização do Depósito", font=("Arial", 16, "bold"), bg="white", fg="#2c3e50").pack(pady=10)
         
         self.canvas = tk.Canvas(right_frame, width=self.GRID_SIZE*self.CELL_SIZE, 
                                 height=self.GRID_SIZE*self.CELL_SIZE, bg="white",
