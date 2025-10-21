@@ -14,7 +14,7 @@ class busca(object):
         # DIREITA
         if y+1<ny:  #se ao andar 1 posição no st[1] for menor que o limite y
             if mapa[x][y+1]==0: #se ao andar no eixo y + 1 for 0 (caminho)
-                suc = [] = #cria vetor suc
+                suc = [] #cria vetor suc
                 suc.append(x) #atribui st[0] a suc
                 suc.append(y+1) #atribui st[1] a suc
                 custo = 5 #o custo é 5
@@ -93,8 +93,7 @@ class busca(object):
             c2 = 7 #variável c2 recebe 7
         else:
             c2 = 5 #variável c2 recebe 5
-        h = sqrt(c1*(p1[0]-p2[0])*(p1[0]-p2[0]) + c2*(p1[1]-p2[1])*(p1[1]-p2[1])) #var h recebe: a raiz quadrada da multiplicação das diferenças entre p1[0] e p2[0], multiplicado por c1 mais a multiplicação 
-        #entre as diferenças entre p1[1] e p2[1]
+        h = sqrt(c1*(p1[0]-p2[0])*(p1[0]-p2[0]) + c2*(p1[1]-p2[1])*(p1[1]-p2[1])) #h recebe a distância euclidiana ponderada entre p1 e p2, onde c1 e c2 são os custos direcionais que ponderam cada eixo
         
         #h = c1*fabs(p1[0]-p2[0]) + c2*fabs(p1[1]-p2[1])
         '''
