@@ -126,7 +126,11 @@ class InterfaceEstoque:
         self.btn_obstaculo = tk.Button(modo_frame, text="Adicionar/Remover Prateleira", 
          command=lambda: self.set_modo("obstaculo"),
          bg="#6c757d", fg="white", font=("Arial", 10, "bold"))
-        self.btn_obstaculo.pack(fill=tk.X, pady=3)
+        self.btn_executar = tk.Button(modo_frame, text="Executar Busca", command=self.executar_busca,
+                              bg="#007bff", fg="white", font=("Arial", 12, "bold"), height=2)
+        self.btn_executar.pack(fill=tk.X, pady=10)
+        
+
 
         # ===== RESULTADO DA BUSCA =====
         resultado_frame = tk.LabelFrame(left_frame, text="Resultado da Busca", font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
@@ -157,11 +161,6 @@ class InterfaceEstoque:
         # ===== BOTÕES DE AÇÃO =====
         acoes_frame = tk.Frame(right_frame, bg="white", padx=20, pady=10)
         acoes_frame.pack(fill=tk.X)
-        
-        self.btn_executar = tk.Button(acoes_frame, text="Executar Busca", command=self.executar_busca,
-                                      bg="#007bff", fg="white", font=("Arial", 12, "bold"), height=2)
-        self.btn_executar.pack(fill=tk.X, pady=3)
-        
         botoes_frame = tk.Frame(acoes_frame, bg="white")
         botoes_frame.pack(fill=tk.X, pady=5)
         
