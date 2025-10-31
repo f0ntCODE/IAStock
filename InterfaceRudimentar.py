@@ -114,21 +114,29 @@ class InterfaceEstoque:
         bg="#f8d7da", font=("Arial", 10, "bold"), relief=tk.RAISED, padx=10, pady=5)
         self.fim_label.pack(fill=tk.X, pady=3)
 
-        # ===== MODO DE EDIÇÃO =====
-        modo_frame = tk.LabelFrame(left_frame, text="Modo de Edição", font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
+              # ===== MODO DE EDIÇÃO =====
+        modo_frame = tk.LabelFrame(left_frame, text="Modo de Edição", 
+                                   font=("Arial", 11, "bold"), bg="white", padx=10, pady=10)
         modo_frame.pack(fill=tk.X, padx=10, pady=5)
+
         self.btn_inicio = tk.Button(modo_frame, text="Definir Coleta", command=lambda: self.set_modo("inicio"),
                                     bg="#28a745", fg="white", font=("Arial", 10, "bold"))
         self.btn_inicio.pack(fill=tk.X, pady=3)
+
         self.btn_fim = tk.Button(modo_frame, text="Definir Entrega", command=lambda: self.set_modo("fim"),
                                  bg="#dc3545", fg="white", font=("Arial", 10, "bold"))
         self.btn_fim.pack(fill=tk.X, pady=3)
+
         self.btn_obstaculo = tk.Button(modo_frame, text="Adicionar/Remover Prateleira", 
-         command=lambda: self.set_modo("obstaculo"),
-         bg="#6c757d", fg="white", font=("Arial", 10, "bold"))
-        self.btn_executar = tk.Button(modo_frame, text="Executar Busca", command=self.executar_busca,
-                              bg="#007bff", fg="white", font=("Arial", 12, "bold"), height=2)
-        self.btn_executar.pack(fill=tk.X, pady=10)
+                                       command=lambda: self.set_modo("obstaculo"),
+                                       bg="#6c757d", fg="white", font=("Arial", 10, "bold"))
+        self.btn_obstaculo.pack(fill=tk.X, pady=3)
+
+        self.btn_executar = tk.Button(modo_frame, text="Executar Busca", 
+                                      command=self.executar_busca,
+                                      bg="#007bff", fg="white", font=("Arial", 12, "bold"), height=2)
+        self.btn_executar.pack(fill=tk.X, pady=8)
+
         
 
 
