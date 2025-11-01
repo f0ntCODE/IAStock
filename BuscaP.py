@@ -93,20 +93,31 @@ class busca(object):
             c2 = 7 #variável c2 recebe 7
         else:
             c2 = 5 #variável c2 recebe 5
-        h = sqrt(c1*(p1[0]-p2[0])*(p1[0]-p2[0]) + c2*(p1[1]-p2[1])*(p1[1]-p2[1])) #h recebe a distância euclidiana ponderada entre p1 e p2, onde c1 e c2 são os custos direcionais que ponderam cada eixo
+        #h = sqrt(c1*(p1[0]-p2[0])*(p1[0]-p2[0]) + c2*(p1[1]-p2[1])*(p1[1]-p2[1])) #h recebe a distância euclidiana ponderada entre p1 e p2, onde c1 e c2 são os custos direcionais que ponderam cada eixo
         
-        #h = c1*fabs(p1[0]-p2[0]) + c2*fabs(p1[1]-p2[1])
+        h = c1*fabs(p1[0]-p2[0]) + c2*fabs(p1[1]-p2[1])
         '''
         heurística recebe a multiplicação de c1 com o valor abosluto em float da direferença entre p1[0] e p2[0], somado com a mesma expressão da anterior, porém, com c2 e 'p's na posição [1]
         '''
         return h #retorne a heurística
+    
+    def isFinal(self, atual ,fim):
+        xI, yI = atual[0], atual[1]
+        xF, yF = fim[0], fim[1]
+        
+        if(xI == xF and yI == yF):
+            print("CAMINHO ENCONTRADO")
+            
+            return True
+        
+        return False
 # -----------------------------------------------------------------------------
 # CUSTO UNIFORME
 # -----------------------------------------------------------------------------
     def custo_uniforme(self,inicio,fim,mapa,nx,ny): # grid | custo uniforme exige coordenada início, fim, mapa, limite x e limite y do grid
         # Origem igual a destino
         if inicio == fim: #se a coordenada do inicio for igual à coordenada fim, chegou ao lugar
-            return [inicio] #retorne o início
+            return [inicio], 0 #retorne o início e o custo
         
         # Fila de prioridade baseada em deque + inserção ordenada
         lista = deque() #tranformar variável lista em uma lista que opera em baixo nível (mais eficiente)
@@ -124,7 +135,7 @@ class busca(object):
             valor_atual = atual.v2 #da variável valor_atual, receba o valor 2 da lista "atual"
     
             # Chegou ao objetivo
-            if atual.estado == fim: #se o estado (x, y) da lista "atual" for igual ao fim (x,y)
+            if (self.isFinal(atual.estado, fim)): #se o estado (x, y) da lista "atual" for igual ao fim (x,y)
                 caminho = self.exibirCaminho(atual) #a lista caminho recebe do método exibirCaminho o retorno do processamento da lista "atual"
                 return caminho, atual.v2 #retorne a lista caminho e o segundo valor da variável "atual"
             
@@ -136,9 +147,8 @@ class busca(object):
                 v2 = valor_atual + novo[1] #variável v2 recebe "valor atual" acrescido do valor no vetor "novo" na posição 2 deste
                 v1 = v2 #v1 recebe o mesmo que o v2
     
-                # Não visitado ou custo melhor
                 t_novo = tuple(novo[0])       # grid | variável t_novo recebe o valor do vetor "novo" em formato de tupla, ou seja, imutáveis e ordenados
-                if (t_novo not in visitado) or (v2<visitado[t_novo].v2): # grid | se o valor do t_novo não estiver em variável visitado ou se o valor v2 for menor que o valor do vetor "visitado", na posição t_novo do valor v2...
+                if (t_novo not in visitado) or (v1<visitado[t_novo].v1) : # grid | se o valor do t_novo não estiver em variável visitado ou se o valor v2 for menor que o valor do vetor "visitado", na posição t_novo do valor v2...
                     filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o valor da classe NodeP, preenchida com os parâmetros: atual, t_novo, v1, nada, nada e v2
                     visitado[t_novo] = filho # grid | o valor que estará na posição t_novo do vetor "visitado" recebe o valor de filho
                     self.inserir_ordenado(lista, filho) #chamada de método "inserir_ordenado", com parâmetros: lista e filho
@@ -150,7 +160,7 @@ class busca(object):
         # Origem igual a destino
         if inicio == fim: #se o valor do início for igual ao valor fim...
             print("INÍCIO É IGUAL A FIM")
-            return [inicio] #retorne valor início em formato de vetor
+            return [inicio], 0 #retorne valor início em formato de vetor e o custo 0
         
         print("INICIANDO ALGORITMO GREED")
         # Fila de prioridade baseada em deque + inserção ordenada
@@ -169,7 +179,7 @@ class busca(object):
             valor_atual = atual.v2 #variável "valor_atual" recebe o valor de atual.v2
     
             # Chegou ao objetivo
-            if atual.estado == fim: #se o estado do valor atual for igual ao fim...
+            if (self.isFinal(atual.estado, fim)): #se o estado do valor atual for igual ao fim...
                 caminho = self.exibirCaminho(atual) #variável caminho recebe o retorno da rotina "exibirCaminho", recebendo como parâmetro o valor "atual"
                 return caminho, atual.v2 #retorne o caminho e o v2 de atual
             
@@ -187,14 +197,17 @@ class busca(object):
                     filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o retorno da função NodeP, que recebe os parâmetros: atual, t_novo, v1, nada, nada, v2
                     visitado[t_novo] = filho # grid | posição t_novo no vetor "visitado" recebe o valor "filho"
                     self.inserir_ordenado(lista, filho) #execute a rotina "inserir_ordenado, com seguintes parâmetros: lista e filho"
+                    
         return None, None #retorno vazio
 # -----------------------------------------------------------------------------
 # A ESTRELA
 # -----------------------------------------------------------------------------
     def a_estrela(self,inicio,fim,mapa,nx,ny): # grid | método "a_estrela" recebe como parâmetros: início, fim, mapa, eixo x e eixo y
+        
+        print("INICIANDO ALGORITMO A*")
         # Origem igual a destino
         if inicio == fim: #se o valor início for igual ao valor fim...
-            return [inicio] # retorne valor "início" em formato de vetor
+            return [inicio] , 0 #retorne valor início em formato de vetor e o custo 0
         
         # Fila de prioridade baseada em deque + inserção ordenada
         lista = deque() #variável "lista" se transforma em deque, para melhor eficiência quanto à manipulação de lista/fila
@@ -211,8 +224,9 @@ class busca(object):
             atual = lista.popleft() #valor atual recebe a "lista" com um valor retirado
             valor_atual = atual.v2 #variável "valor_atual" recebe o valor atual.v2
     
-            # Chegou ao objetivo
-            if atual.estado == fim: #se o estado de valor atual recebe o valor fim...
+            if(self.isFinal(atual.estado, fim)):
+                
+                print("Destino encontrado!")
                 caminho = self.exibirCaminho(atual) #variável caminho recebe o retorno da rotina "exibirCaminho", atribuindo o valor "atual"
                 return caminho, atual.v2 #retorne o valor caminho e o v2 do atual
             
@@ -235,9 +249,11 @@ class busca(object):
 # AI ESTRELA
 # -----------------------------------------------------------------------------       
     def aia_estrela(self,inicio,fim,mapa,nx,ny): # grid | função aia_estrela recebe os parâmetros: início, fim, mapa, eixo x e eixo y
+        
+        print("INICIANDO ALGORITMO AIA*")
         # Origem igual a destino
         if inicio == fim: #se o valor início for igual ao valor fim...
-            return [inicio]  #retorne o valor início em formato de vetor
+            return [inicio] , 0 #retorne valor início em formato de vetor e o custo 0
         
         limite = self.heuristica_grid(inicio,fim) #valor limite recebe o retorno da rotina "heurística_grid", que recebe os parâmetros: início e fim
         
@@ -262,7 +278,7 @@ class busca(object):
                 valor_atual = atual.v2 # valor_atual recebe o atual.v2
         
                 # Chegou ao objetivo
-                if atual.estado == fim: #se o estado do valor atual for igual ao valor fim
+                if (self.isFinal(atual.estado, fim)): #se o estado do valor atual for igual ao valor fim
                     caminho = self.exibirCaminho(atual) #valor caminho recebe o retorno da função "exibirCaminho", que recebe o parâmetro "atual"
                     return caminho, atual.v2 #retorne o valor caminho e o valor atual.v2
                 
@@ -284,15 +300,12 @@ class busca(object):
                             self.inserir_ordenado(lista, filho) #execute a rotina inserir_ordenado, com os parâmetros: lista e filhos
                     else: #senão...
                         lim_acima.append(v1) #atribua o v1 ao vetor "lim_acima"
-            try:
-                limite = sum(lim_acima)/len(lim_acima) #variável limite recebe o somatório de lim_acima dividido pelo tamanho do lim_acima
-            except:
-                raise ZeroDivisionError("Divisão por 0 ocorreu")
+    
+            if(len(lim_acima) == 0):
+                return None, None
             
-            finally:
-                
-                lista.clear() #limpar a lista
-                visitado.clear() #limpar vetor "visitado"
-                filhos.clear() #limpar "filhos"               
+            limite = sum(lim_acima)/len(lim_acima) #variável limite recebe o somatório de lim_acima dividido pelo tamanho do lim_acima
+            lista.clear() #limpar a lista
+            visitado.clear() #limpar vetor "visitado"               
                      
         return None, None #retorno vazio
