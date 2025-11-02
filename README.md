@@ -1,56 +1,64 @@
-📦 Gestão de Estoques - Previsão e Planejamento
+# 📦 Gestão de Estoques - Previsão e Planejamento
 
 Simulação interativa de Gestão de Estoques, permitindo prever necessidades e planejar reabastecimentos para reduzir rupturas 🏪. Visualize rotas no depósito, defina pontos de coleta e entrega, e teste diferentes estratégias de logística.
 
-🚀 Como Rodar
+## 🚀 Como Rodar
 
-Abra o terminal.
+1. Abra o terminal.
 
-Navegue até a pasta do projeto:
+2. Navegue até a pasta do projeto:
+```
+  cd caminho/para/o/projeto
+```
 
-cd caminho/para/o/projeto
+3. Execute o arquivo principal:
+ ````
+  python InterfaceGrafica.py
+````
+## 🎮 Como Usar
 
+- Selecionar Modo de Edição
 
-Execute o arquivo principal:
+🟢 **Coleta**: definir ponto inicial de retirada do estoque
 
-python InterfaceEstoque.py
+🔴 **Entrega**: definir destino do produto
 
+⬛ **Prateleira/Ocupado**: adicionar ou remover obstáculos no depósito
 
-⚠️ Certifique-se de que os arquivos Node.py e BuscaNP.py estão na mesma pasta.
+- Escolher Algoritmo de Busca
+  
+Para algoritmos de busca não informada:
+> Amplitude, Profundidade, Profundidade Limitada, Aprofundamento Iterativo ou Bidirecional
 
-🎮 Como Usar
+|Para algoritmo de busca ponderada
+> Greedy, A*, AIA* e Custo Uniforme
 
-Selecionar Modo de Edição
+- Executar Planejamento
 
-🟢 Coleta: definir ponto inicial de retirada do estoque
-
-🔴 Entrega: definir destino do produto
-
-⬛ Prateleira/Ocupado: adicionar ou remover obstáculos no depósito
-
-Escolher Algoritmo de Busca
-
-Amplitude, Profundidade, Profundidade Limitada, Aprofundamento Iterativo ou Bidirecional
-
-Executar Planejamento
-
-Clique em ▶ Executar Busca
+Clique em **▶ Executar Busca**
 
 Caminho otimizado é exibido no painel e destacado no grid
 
-🖌 Legenda do Depósito
-Cor	Significado
-⚪ Branco	Célula Livre
-⬛ Cinza	Prateleira/Ocupada
-🟢 Verde	Ponto de Coleta
-🔴 Vermelho	Ponto de Entrega
-🔵 Azul	Caminho Planejado
-💡 Funcionalidades
+## 🖌 Legenda do Depósito
 
-Simulação de rotas no depósito para otimizar retirada e entrega
+- Cor	Significado
+  
+  ⚪ Branco:	Célula Livre
 
-Planejamento de reabastecimento baseado em obstáculos e limites de profundidade
+  ⬛ Cinza:	Prateleira/Ocupada
 
-Visualização interativa para facilitar tomada de decisão
+  🟢 Verde:	Ponto de Coleta
 
-Ajuste do grid e obstáculos para refletir cenários reais do estoque
+  🔴 Vermelho:	Ponto de Entrega
+
+  🔵 Azul:	Caminho Planejado
+
+  💡 Funcionalidades:
+
+  - Simulação de rotas no depósito para otimizar retirada e entrega
+
+  - Planejamento de reabastecimento baseado em obstáculos e limites de profundidade
+
+  - Visualização interativa para facilitar tomada de decisão
+
+  - Ajuste do grid e obstáculos para refletir cenários reais do estoque
