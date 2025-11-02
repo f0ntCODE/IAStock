@@ -88,7 +88,8 @@ class InterfaceEstoque:
             ("Busca Bidirecional", "bidirecional"),
             ("Greedy (Ganancioso)", "greedy"),
             ("A* (A-Estrela)", "a_estrela"),
-            ("IDA* (AIA-Estrela)", "aia_estrela")
+            ("IDA* (AIA-Estrela)", "aia_estrela"),
+             ("Custo Uniforme", "custo_uniforme")
         ]
         for texto, valor in todos_algoritmos:
             tk.Radiobutton(algo_frame, text=texto, variable=self.algoritmo_var, 
@@ -304,7 +305,9 @@ class InterfaceEstoque:
                 resultado, custo = self.busca_p.a_estrela(self.inicio, self.fim, self.grid, self.GRID_SIZE, self.GRID_SIZE)
             elif algoritmo == "aia_estrela":
                 resultado, custo = self.busca_p.aia_estrela(self.inicio, self.fim, self.grid, self.GRID_SIZE, self.GRID_SIZE)
-
+            elif algoritmo == "custo_uniforme":
+                resultado, custo = self.busca_p.custo_uniforme(self.inicio, self.fim, self.grid, self.GRID_SIZE, self.GRID_SIZE)
+            
             # Atualiza resultados
             if resultado:
                 self.caminho = resultado

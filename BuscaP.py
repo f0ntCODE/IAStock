@@ -115,6 +115,8 @@ class busca(object):
 # CUSTO UNIFORME
 # -----------------------------------------------------------------------------
     def custo_uniforme(self,inicio,fim,mapa,nx,ny): # grid | custo uniforme exige coordenada início, fim, mapa, limite x e limite y do grid
+        ite = 0
+        
         # Origem igual a destino
         if inicio == fim: #se a coordenada do inicio for igual à coordenada fim, chegou ao lugar
             return [inicio], 0 #retorne o início e o custo
@@ -137,12 +139,15 @@ class busca(object):
             # Chegou ao objetivo
             if (self.isFinal(atual.estado, fim)): #se o estado (x, y) da lista "atual" for igual ao fim (x,y)
                 caminho = self.exibirCaminho(atual) #a lista caminho recebe do método exibirCaminho o retorno do processamento da lista "atual"
+                atual.v2
                 return caminho, atual.v2 #retorne a lista caminho e o segundo valor da variável "atual"
             
             # Gera sucessores - grid
             filhos = self.sucessores_grid(atual.estado,nx,ny,mapa) # grid | lista filhos recebe o retorno do método sucessores_grid
     
             for novo in filhos: # grid | laço for para iterar sobre o nó filhos
+                ite = ite+1
+                print("ITERAÇÃO:",ite)
                 # custo acumulado até o sucessor
                 v2 = valor_atual + novo[1] #variável v2 recebe "valor atual" acrescido do valor no vetor "novo" na posição 2 deste
                 v1 = v2 #v1 recebe o mesmo que o v2
@@ -152,7 +157,7 @@ class busca(object):
                     filho = NodeP(atual,t_novo, v1, None, None, v2) # grid | variável filho recebe o valor da classe NodeP, preenchida com os parâmetros: atual, t_novo, v1, nada, nada e v2
                     visitado[t_novo] = filho # grid | o valor que estará na posição t_novo do vetor "visitado" recebe o valor de filho
                     self.inserir_ordenado(lista, filho) #chamada de método "inserir_ordenado", com parâmetros: lista e filho
-        return None #retorne nada
+        return None, None #retorne nada
 # -----------------------------------------------------------------------------
 # GREEDY
 # -----------------------------------------------------------------------------
